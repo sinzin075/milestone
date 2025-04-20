@@ -1,0 +1,15 @@
+# Logs
+*.log
+!*.log.example
+
+# Environment configs
+.env
+**/.env
+*.env.local
+*.env.development
+*.env.production
+
+# Spring Boot sensitive files
+backend/src/main/resources/application.properties
+!backend/src/main/resources/application-example.properties
+
