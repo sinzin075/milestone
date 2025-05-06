@@ -26,7 +26,7 @@ public class UserService{
         return userRepository.update(existUser);
     }
 
-        public User findById(int id){
+        public User select(int id){
         return userRepository.select(id);
     }
 

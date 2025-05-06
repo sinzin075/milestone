@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/users")
-public class UserController{//各メソッドのreturn に使用しているメソッド名については仮で使用しているものとする
+public class UserController{
     private final UserService userService;
 
-    public UserController(UserService userService){
-        this.userService=userService;
-    }
+    public UserController(UserService userService){this.userService=userService;}
 
     @PostMapping
-    public int createUser(@RequestBody User user){
+    public int insertUser(@RequestBody User user){
         return userService.insert(user);
     }
+
     @GetMapping("/{id}")
-    public User getUser(@PathVariable int id){
-        return userService.findById(id);
+    public User selectUser(@PathVariable int id){
+        return userService.select(id);
     }
+
     @PutMapping("/{id}")
-    public int putUser(@PathVariable int id, @RequestBody User user){
+    public int updateUser(@PathVariable int id, @RequestBody User user){
         user.setId(id);
         return userService.update(user);
     }

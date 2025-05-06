@@ -30,6 +30,10 @@ public class User{
     public String getPhoto(){return photo;}
     public LocalDate getBirthday(){return birthday;}
     public String getEmail(){return email;}
+    public LocalDateTime getCreated_at(){return created_at;}
+    public LocalDateTime getUpdated_at(){return updated_at;}
+    public LocalDateTime getDeleted_at(){return deleted_at;}
+    
 
     public void setId(int id){this.id=id;} 
     public void setName(String name){this.name=name;} 
