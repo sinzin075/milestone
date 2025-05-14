@@ -10,9 +10,9 @@ public class User{
     private String photo;
     private LocalDate birthday;
     private String email;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
-    private LocalDateTime deleted_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     public User(){}
 
@@ -30,9 +30,9 @@ public class User{
     public String getPhoto(){return photo;}
     public LocalDate getBirthday(){return birthday;}
     public String getEmail(){return email;}
-    public LocalDateTime getCreated_at(){return created_at;}
-    public LocalDateTime getUpdated_at(){return updated_at;}
-    public LocalDateTime getDeleted_at(){return deleted_at;}
+    public LocalDateTime getCreatedAt(){return createdAt;}
+    public LocalDateTime getUpdatedAt(){return updatedAt;}
+    public LocalDateTime getDeletedAt(){return deletedAt;}
     
 
     public void setId(int id){this.id=id;} 
@@ -40,8 +40,8 @@ public class User{
     public void setPhoto(String photo){this.photo=photo;} 
     public void setBirthday(LocalDate birthday){this.birthday=birthday;} 
     public void setEmail(String email){this.email=email;}  
-    public void setCreated_at(LocalDateTime created_at){this.created_at=created_at;} 
-    public void setUpdated_at(LocalDateTime updated_at){this.updated_at=updated_at;} 
-    public void setDeleted_at(LocalDateTime deleted_at){this.deleted_at=deleted_at;}
+    public void setCreatedAt(LocalDateTime createdAt){this.createdAt=createdAt;} 
+    public void setUpdatedAt(LocalDateTime updatedAt){this.updatedAt=updatedAt;} 
+    public void setDeletedAt(LocalDateTime deletedAt){this.deletedAt=deletedAt;}
 
 }

@@ -23,16 +23,16 @@ public class GoalRepository{
             public Goal mapRow(ResultSet rs,int rowNum)throws SQLException{
                 Goal goalMap= new Goal();
                 goalMap.setId(rs.getInt("id"));
-                goalMap.setUser_id(rs.getInt("user_id"));
+                goalMap.setUserId(rs.getInt("user_id"));
                 goalMap.setTitle(rs.getString("title"));
                 goalMap.setContent(rs.getString("content"));
                 goalMap.setDate(rs.getDate("date").toLocalDate());
                 Timestamp timestamp_created = rs.getTimestamp("created_at");
                 Timestamp timestamp_updated = rs.getTimestamp("updated_at");
                 Timestamp timestamp_deleted = rs.getTimestamp("deleted_at");
-                if(timestamp_created!=null){goalMap.setCreated_at(timestamp_created.toLocalDateTime());}
-                if(timestamp_updated!=null){goalMap.setUpdated_at(timestamp_updated.toLocalDateTime());}
-                if(timestamp_deleted!=null){goalMap.setDeleted_at(timestamp_deleted.toLocalDateTime());}
+                if(timestamp_created!=null){goalMap.setCreatedAt(timestamp_created.toLocalDateTime());}
+                if(timestamp_updated!=null){goalMap.setUpdatedAt(timestamp_updated.toLocalDateTime());}
+                if(timestamp_deleted!=null){goalMap.setDeletedAt(timestamp_deleted.toLocalDateTime());}
                 return goalMap;
             }
         },id);
@@ -41,7 +41,7 @@ public class GoalRepository{
     
     public int insert(Goal goal){
         final String sql = "insert into goals(user_id,title,content,date) values(?,?,?,?)";
-        return jdbcTemplate.update(sql,goal.getUser_id(),goal.getTitle(),goal.getContent(),goal.getDate());
+        return jdbcTemplate.update(sql,goal.getUserId(),goal.getTitle(),goal.getContent(),goal.getDate());
     }
     
     public int update(Goal goal){
