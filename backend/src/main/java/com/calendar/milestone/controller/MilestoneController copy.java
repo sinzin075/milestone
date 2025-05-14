@@ -1,0 +1,45 @@
+package com.calendar.milestone.controller;
+
+
+import com.calendar.milestone.model.entity.Milestone;
+import com.calendar.milestone.model.service.MilestoneService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@RestController
+@RequestMapping("/milestone")
+public class MilestoneController{
+    private final MilestoneService milestoneService;
+
+    public MilestoneController(MilestoneService milestoneService){this.milestoneService=milestoneService;}
+
+    @PostMapping
+    public int insertMilestone(@RequestBody Milestone milestone){
+    // TODO: Set user_id from logged-in session when login feature is implemented
+        return milestoneService.insert(milestone);
+    }
+
+    @GetMapping("/{id}")
+    public Milestone selectMilestone(@PathVariable int id){
+        return milestoneService.select(id);
+    }
+
+    @PutMapping("/{id}")
+    public int updateMilestone(@PathVariable int id,@RequestBody Milestone milestone){
+        milestone.setId(id);
+    // TODO: Set user_id from logged-in session when login feature is implemented
+        return milestoneService.update(milestone);
+    }
+
+    @DeleteMapping("/{id}")
+    public int deleteMilestone(@PathVariable int id){
+        return milestoneService.delete(id);
+    }
+
+}

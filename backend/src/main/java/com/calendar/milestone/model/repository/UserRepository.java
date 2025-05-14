@@ -29,12 +29,12 @@ public class UserRepository{
                 userMap.setPhoto(rs.getString("photo"));
                 userMap.setBirthday(rs.getDate("birthday").toLocalDate());
                 userMap.setEmail(rs.getString("email"));
-                Timestamp timestamp_created = rs.getTimestamp("created_at");
-                Timestamp timestamp_updated = rs.getTimestamp("updated_at");
-                Timestamp timestamp_deleted = rs.getTimestamp("deleted_at");
-                if(timestamp_created!=null){userMap.setCreated_at(timestamp_created.toLocalDateTime());}
-                if(timestamp_updated!=null){userMap.setUpdated_at(timestamp_updated.toLocalDateTime());}
-                if(timestamp_deleted!=null){userMap.setDeleted_at(timestamp_deleted.toLocalDateTime());}
+                Timestamp timestampCreated = rs.getTimestamp("created_at");
+                Timestamp timestampUpdated = rs.getTimestamp("updated_at");
+                Timestamp timestampDeleted = rs.getTimestamp("deleted_at");
+                if(timestampCreated!=null){userMap.setCreatedAt(timestampCreated.toLocalDateTime());}
+                if(timestampUpdated!=null){userMap.setUpdatedAt(timestampUpdated.toLocalDateTime());}
+                if(timestampDeleted!=null){userMap.setDeletedAt(timestampDeleted.toLocalDateTime());}
             return userMap;
             }
         },id);
