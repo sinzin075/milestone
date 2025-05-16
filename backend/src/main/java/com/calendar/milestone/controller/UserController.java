@@ -1,5 +1,6 @@
 package com.calendar.milestone.controller;
 
+import com.calendar.milestone.controller.dto.UserRequest;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class UserController{
     public UserController(UserService userService){this.userService=userService;}
 
     @PostMapping
-    public int insertUser(@RequestBody User user){
+    public int insertUser(@RequestBody UserRequest user){
         return userService.insert(user);
     }
 
@@ -29,7 +30,7 @@ public class UserController{
     }
 
     @PutMapping("/{id}")
-    public int updateUser(@PathVariable int id, @RequestBody User user){
+    public int updateUser(@PathVariable int id, @RequestBody UserRequest user){
         user.setId(id);
         return userService.update(user);
     }
