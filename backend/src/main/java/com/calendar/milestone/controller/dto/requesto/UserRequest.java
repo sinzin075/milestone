@@ -1,4 +1,4 @@
-package com.calendar.milestone.controller.dto;
+package com.calendar.milestone.controller.dto.requesto;
 
 import java.time.LocalDate;
 
@@ -33,7 +33,7 @@ public class UserRequest {
     public Integer getId(){return id;}
     public String getName(){return name;}
     public String getPhoto(){return photo;}
-    public LocalDate getBirthday(){return birthday;}
+    public LocalDate getBirthday(){return birthday;}    
     public String getEmail(){return email;}
 
     public void setId(int id){this.id=id;}

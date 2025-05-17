@@ -1,7 +1,7 @@
 package com.calendar.milestone.controller;
 
-import com.calendar.milestone.controller.dto.UserRequest;
-import com.calendar.milestone.model.entity.User;
+import com.calendar.milestone.controller.dto.requesto.UserRequest;
+import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public class UserController{
     }
 
     @GetMapping("/{id}")
-    public User selectUser(@PathVariable int id){
+    public UserResponse selectUser(@PathVariable int id){
         return userService.select(id);
     }
 
