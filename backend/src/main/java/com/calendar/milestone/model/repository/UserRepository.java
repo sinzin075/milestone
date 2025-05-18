@@ -27,7 +27,7 @@ public class UserRepository{
                 userMap.setId(rs.getInt("id"));
                 userMap.setName(rs.getString("name"));
                 userMap.setPhoto(rs.getString("photo"));
-                userMap.setBirthday(rs.getDate("birthday").toLocalDate());
+                if(rs.getDate("birthday")!=null){userMap.setBirthday(rs.getDate("birthday").toLocalDate());}
                 userMap.setEmail(rs.getString("email"));
                 Timestamp timestampCreated = rs.getTimestamp("created_at");
                 Timestamp timestampUpdated = rs.getTimestamp("updated_at");
