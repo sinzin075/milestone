@@ -1,4 +1,4 @@
-package com.calendar.milestone.controller.dto.requesto;
+package com.calendar.milestone.controller.dto.request;
 
 import java.time.LocalDate;
 

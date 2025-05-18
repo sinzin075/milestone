@@ -1,6 +1,6 @@
 package com.calendar.milestone.controller;
 
-import com.calendar.milestone.controller.dto.requesto.UserRequest;
+import com.calendar.milestone.controller.dto.request.UserRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
