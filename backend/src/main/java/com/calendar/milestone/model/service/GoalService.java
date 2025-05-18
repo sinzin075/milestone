@@ -1,5 +1,7 @@
 package com.calendar.milestone.model.service;
 
+import com.calendar.milestone.controller.dto.request.GoalRequest;
+import com.calendar.milestone.controller.dto.response.GoalResponse;
 import com.calendar.milestone.model.entity.Goal;
 import com.calendar.milestone.model.repository.GoalRepository;
 import org.springframework.stereotype.Service;
@@ -12,20 +14,43 @@ public class GoalService{
 
     public GoalService(GoalRepository goalRepository){this.goalRepository=goalRepository;}
 
-    public int insert(Goal goal){
+    public GoalResponse convertToGoalResponse(Goal goal){
+        GoalResponse goalResponse=new GoalResponse();
+        goalResponse.setId(goal.getId());
+        goalResponse.setUserId(goal.getUserId());
+        goalResponse.setTitle(goal.getTitle());
+        goalResponse.setContent(goal.getContent());
+        goalResponse.setDate(goal.getDate());
+        goalResponse.setCreatedAt(goal.getCreatedAt());
+        if(goal.getUpdatedAt()!=null){goalResponse.setUpdatedAt(goal.getUpdatedAt());}
+        if(goal.getDeletedAt()!=null){goalResponse.setDeletedAt(goal.getDeletedAt());}
+        return goalResponse;
+    }
+
+    public Goal convertToGoalUpdate(GoalRequest goalRequest){
+        Goal goal=goalRepository.select(goalRequest.getId());
+        if(goalRequest.getTitle()!=null){goal.setTitle(goalRequest.getTitle());}
+        if(goalRequest.getContent()!=null){goal.setContent(goalRequest.getContent());}
+        if(goalRequest.getDate()!=null){goal.setDate(goalRequest.getDate());}
+        return goal;
+    }
+
+    public int insert(GoalRequest goalRequest){
+        Goal goal=new Goal();
+        goal.setId(goalRequest.getId());
+        goal.setUserId(goalRequest.getUserId());
+        goal.setTitle(goalRequest.getTitle());
+        goal.setContent(goalRequest.getContent());
+        goal.setDate(goalRequest.getDate());
         return goalRepository.insert(goal);
     }
 
-    public Goal select(int id){
-        return goalRepository.select(id);
+    public GoalResponse select(int id){
+        return convertToGoalResponse(goalRepository.select(id));
     }
 
-    public int update(Goal goal){
-        Goal existGoal =goalRepository.select(goal.getId());
-        if(goal.getTitle()!=null){existGoal.setTitle(goal.getTitle());}
-        if(goal.getContent()!=null){existGoal.setContent(goal.getContent());}
-        if(goal.getDate()!=null){existGoal.setDate(goal.getDate());}
-        return goalRepository.update(existGoal);
+    public int update(GoalRequest goal){
+        return goalRepository.update(convertToGoalUpdate(goal));
     }
 
     public int delete(int id){
