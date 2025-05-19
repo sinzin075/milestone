@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Repository
 public class MilestoneRepository{
     private JdbcTemplate jdbcTemplate;
-    MilestoneRepository(){}
     MilestoneRepository(JdbcTemplate jdbcTemplate){this.jdbcTemplate=jdbcTemplate;}
     
     public Milestone select(int id){
@@ -23,7 +22,8 @@ public class MilestoneRepository{
                 existMilestone.setId(rs.getInt("id"));
                 existMilestone.setGoalId(rs.getInt("goal_id"));
                 existMilestone.setTitle(rs.getString("title"));
-                existMilestone.setContent(rs.getString("Content"));
+                existMilestone.setContent(rs.getString("content"));
+                existMilestone.setDate(rs.getDate("date").toLocalDate());
                 Timestamp timestampCreated=rs.getTimestamp("created_at");
                 Timestamp timestampUpdated=rs.getTimestamp("updated_at");
                 Timestamp timestampDeleted=rs.getTimestamp("deleted_at");
@@ -37,16 +37,16 @@ public class MilestoneRepository{
     } 
 
     public int insert(Milestone milestone){
-        String sql="insert into milestone(id,goal_id,title,content) values(?,?,?,?)";
-        return jdbcTemplate.update(sql,milestone.getId(),milestone.getGoalId(),milestone.getTitle(),milestone.getContent());
+        String sql="insert into milestone(goal_id,title,content,date) values(?,?,?,?)";
+        return jdbcTemplate.update(sql,milestone.getGoalId(),milestone.getTitle(),milestone.getContent(),milestone.getDate());
     } 
 
     public int update(Milestone milestone){
-        String sql="update milestone set title=?,content=?,date=? where=id";
+        String sql="update milestone set title=?,content=?,date=? where id=?";
         return jdbcTemplate.update(sql,milestone.getTitle(),milestone.getContent(),milestone.getDate(),milestone.getId());
     }
     public int delete(int id){
-        String sql="update milestone set deleted_at=? where=id";
+        String sql="update milestone set deleted_at=? where id=?";
         return jdbcTemplate.update(sql,LocalDateTime.now(),id);
     } 
 }

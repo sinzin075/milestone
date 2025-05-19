@@ -1,5 +1,7 @@
 package com.calendar.milestone.model.service;
 
+import com.calendar.milestone.controller.dto.request.MilestoneRequest;
+import com.calendar.milestone.controller.dto.response.MilestoneResponse;
 import com.calendar.milestone.model.entity.Milestone;
 import com.calendar.milestone.model.repository.MilestoneRepository;
 import org.springframework.stereotype.Service;
@@ -12,20 +14,43 @@ public class MilestoneService{
 
     public MilestoneService(MilestoneRepository milestoneRepository){this.milestoneRepository=milestoneRepository;}
 
-    public int insert(Milestone milestone){
+    public Milestone convertToMilestoneUpdate(MilestoneRequest milestoneRequest){
+        Milestone milestone=milestoneRepository.select(milestoneRequest.getId());
+        milestone.setGoalId(milestoneRequest.getGoalId());
+        if(milestoneRequest.getTitle()!=null){milestone.setTitle(milestoneRequest.getTitle());}
+        if(milestoneRequest.getContent()!=null){milestone.setContent(milestoneRequest.getContent());}
+        if(milestoneRequest.getDate()!=null){milestone.setDate(milestoneRequest.getDate());}
+        return milestone;
+    }
+
+    public MilestoneResponse convertToMilestoneResponse(Milestone milestone){
+        MilestoneResponse milestoneResponse = new MilestoneResponse();
+        milestoneResponse.setId(milestone.getId());
+        milestoneResponse.setGoalId(milestone.getGoalId());
+        milestoneResponse.setTitle(milestone.getTitle());
+        milestoneResponse.setContent(milestone.getContent());
+        milestoneResponse.setDate(milestone.getDate());
+        milestoneResponse.setCreatedAt(milestone.getCreatedAt());
+        if(milestone.getUpdatedAt()!=null){milestoneResponse.setUpdatedAt(milestone.getUpdatedAt());}
+        if(milestone.getDeletedAt()!=null){milestoneResponse.setDeletedAt(milestone.getDeletedAt());}
+        return milestoneResponse;
+    }
+
+    public int insert(MilestoneRequest milestoneRequest){
+        Milestone milestone = new Milestone();
+        milestone.setGoalId(milestoneRequest.getGoalId());
+        milestone.setTitle(milestoneRequest.getTitle());
+        milestone.setContent(milestoneRequest.getContent());
+        milestone.setDate(milestoneRequest.getDate());
         return milestoneRepository.insert(milestone);
     }
 
-    public Milestone select(int id){
-        return milestoneRepository.select(id);
+    public MilestoneResponse select(int id){
+        return convertToMilestoneResponse(milestoneRepository.select(id));
     }
 
-    public int update(Milestone milestone){
-        Milestone existMilestone =milestoneRepository.select(milestone.getId());
-        if(milestone.getTitle()!=null){existMilestone.setTitle(milestone.getTitle());}
-        if(milestone.getContent()!=null){existMilestone.setContent(milestone.getContent());}
-        if(milestone.getDate()!=null){existMilestone.setDate(milestone.getDate());}
-        return milestoneRepository.update(existMilestone);
+    public int update(MilestoneRequest milestone){
+        return milestoneRepository.update(convertToMilestoneUpdate(milestone));
     }
 
     public int delete(int id){
