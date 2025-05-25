@@ -1,6 +1,8 @@
 "use client";
 
+import { resolve } from 'path';
 import {useState} from 'react';
+import { CustomPromisifyLegacy } from 'util';
 
 
 export default function userRegistration(){
@@ -55,4 +57,14 @@ export default function userRegistration(){
         </div>
     </div>
     );
+}
+
+function validateUserName(userName:string):Promise<boolean>{
+    return new Promise((resolve,reject)=>{
+        const regex = new RegExp("[!#\"'%&()=^|<>?]");
+        if(!userName){return reject(new Error("user name is too short"));}
+        if(userName.length > 20){return reject(new Error("user name is too long"))}
+        if(regex.test(userName)){return reject(new Error("The symbols that cannot be used are included"));}
+        return resolve(true);
+        });
 }
