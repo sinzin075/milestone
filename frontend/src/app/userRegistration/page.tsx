@@ -68,3 +68,15 @@ function validateUserName(userName:string):Promise<boolean>{
         return resolve(true);
         });
 }
+
+function validateEmail(email: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+    const regex = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!regex.test(email)) {
+        return reject(new Error("Please use a valid email format (example@gmail.com)"));
+    }
+
+    return resolve(true);
+    });
+}
