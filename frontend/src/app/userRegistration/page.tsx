@@ -1,26 +1,39 @@
 "use client";
 
-import { resolve } from 'path';
-import {useState} from 'react';
-import { CustomPromisifyLegacy } from 'util';
 
+import {useState} from 'react';
 
 export default function userRegistration(){
-    const[userName,setUserName]=useState(null);
-    const[email,setEmail]=useState(null);
-    const[error,setError]=useState(null);
+    const[userName,setUserName]=useState('');
+    const[email,setEmail]=useState('');
+    const[userNameError,setUserNameError]=useState<string|null>(null);
+    const[emailError,setEmailError]=useState<string|null>(null);
     const[status, setStatus] = useState('typing');
 
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('submitting');
+    setUserNameError(null);
+    setEmailError(null);
+    let errorStatus=false;
     try {
-        await submitForm(userName);
+        await validateUserName(userName);
+    } catch (error:any) {
+        errorStatus=true;
+        setUserNameError(error.message);
+    }
+
+    try{
+        await validateEmail(email);
+    }catch(error:any){
+        errorStatus=true;
+        setEmailError(error.message);
+    }
+    if(!errorStatus){
         setStatus('success');
-    } catch (err) {
+    }else{
         setStatus('typing');
-        setError(err);
     }
 }
 
@@ -38,24 +51,32 @@ export default function userRegistration(){
                     type="text"
                     placeholder="User Name"
                     className="w-full placeholder-gray-400 border-2 rounded-md p-1 mb-2"
+                    name='userName'
+                    value={userName}
+                    onChange={e=>setUserName(e.target.value)}
                 />
+                <div id="userNameError" className="text-red-500 text-sm mt-1">{userNameError}</div>
                 <h4 className="mb-1">Email</h4>
                 <input
                     type="text"
-                    placeholder="Password"
+                    placeholder="e-Mail"
                     className="w-full placeholder-gray-400 border-2 rounded-md p-1"
+                    name='email'
+                    value={email}
+                    onChange={e=>setEmail(e.target.value)}
                 />
+                <div id="emailError" className="text-red-500 text-sm mt-1">{emailError}</div>
+                </div>
             </div>
 
-                <button className="w-full bg-green-300 border-2 border-green-600 text-black rounded-xl py-1 mb-2">
-                Login
-                </button>
+            <button className="w-full bg-green-300 border-2 border-green-600 text-black rounded-xl py-1 mb-2">
+            Login
+            </button>
         </form>
 
             <div className="text-center">
             </div>
         </div>
-    </div>
     );
 }
 
