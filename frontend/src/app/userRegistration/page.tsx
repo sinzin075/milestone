@@ -1,7 +1,7 @@
 "use client";
 
 
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 export default function userRegistration(){
     const[userName,setUserName]=useState('');
@@ -24,6 +24,8 @@ export default function userRegistration(){
         setUserNameError(error.message);
     }
 
+
+
     try{
         await validateEmail(email);
     }catch(error:any){
@@ -37,9 +39,22 @@ export default function userRegistration(){
     }
 }
 
-    if(status==='success'){
-        return <h1>success!!</h1>
-    }
+
+    useEffect(()=>{
+        if(status==="success"){ 
+        fetch("http://localhost:8080/users",{
+            method:"POST",
+            body:JSON.stringify({name:userName,email:email}),
+            headers:{
+                "Content-Type":"application/json",
+            },
+        }).then(()=>console.log("user registation"));
+        }
+    },[status,userName,email]);
+
+
+
+
     return(
 
     <div className="h-screen w-screen flex justify-center items-center bg-green-50">

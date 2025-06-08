@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 export default function Home() {
+
   return (
+    
     <div className="h-screen w-screen flex justify-center items-center bg-green-50">
       <div>
         <div className="bg-green-300 p-6 rounded-3xl text-center mb-6">
