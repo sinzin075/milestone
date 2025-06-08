@@ -17,6 +17,7 @@ export default function userRegistration(){
     setUserNameError(null);
     setEmailError(null);
     let errorStatus=false;
+
     try {
         await validateUserName(userName);
     } catch (error:any) {
@@ -24,35 +25,34 @@ export default function userRegistration(){
         setUserNameError(error.message);
     }
 
-
-
     try{
         await validateEmail(email);
     }catch(error:any){
         errorStatus=true;
         setEmailError(error.message);
     }
+
     if(!errorStatus){
-        setStatus('success');
-    }else{
-        setStatus('typing');
-    }
-}
-
-
-    useEffect(()=>{
-        if(status==="success"){ 
-        fetch("http://localhost:8080/users",{
+        const res = await fetch("http://localhost:8080/users",{
             method:"POST",
             body:JSON.stringify({name:userName,email:email}),
             headers:{
                 "Content-Type":"application/json",
             },
-        }).then(()=>console.log("user registation"));
+        });
+        if(res.ok){
+            console.log("user registration");
+            setStatus("success");
+        }else{
+            setStatus("error");
         }
-    },[status,userName,email]);
+    }else{
+        setStatus('typing');
+    }
 
 
+
+    }
 
 
     return(
