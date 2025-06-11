@@ -1,9 +1,11 @@
+
 create table if not exists users(
     id int not null auto_increment,
     name varchar(20) not null,
     photo varchar(200) ,
     birthday date,
     email varchar(30) not null,
+    password varchar(255) not null,
     created_at datetime default current_timestamp not null,
     updated_at datetime default current_timestamp on update current_timestamp,
     deleted_at datetime default NULL,
