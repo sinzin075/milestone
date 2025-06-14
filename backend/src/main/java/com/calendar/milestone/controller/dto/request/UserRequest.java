@@ -15,11 +15,11 @@ public class UserRequest {
 
     @JsonProperty("name")
     @NotNull
-    @Size(min=1,max=20)
+    @Size(min = 1,max = 20)
     private String name;
     
     @JsonProperty("photo")
-    @Size(max=200)
+    @Size(max = 200)
     private String photo;
     
     @JsonProperty("birthday")
@@ -28,8 +28,13 @@ public class UserRequest {
     @JsonProperty("email")
     @NotNull
     @Email
-    @Size(max=30)
+    @Size(max = 30)
     private String email;
+    
+    @JsonProperty("password")
+    @NotNull
+    @Size(min = 8,max = 200)
+    private String password;
 
     public Integer getId(){return id;}
     public String getName(){return name;}
