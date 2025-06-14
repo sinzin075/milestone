@@ -15,31 +15,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/milestone")
-public class MilestoneController{
+public class MilestoneController {
     private final MilestoneService milestoneService;
 
-    public MilestoneController(MilestoneService milestoneService){this.milestoneService=milestoneService;}
+    public MilestoneController(MilestoneService milestoneService) {
+        this.milestoneService = milestoneService;
+    }
 
     @PostMapping
-    public int insertMilestone(@RequestBody MilestoneRequest milestone){
-    // TODO: Set user_id from logged-in session when login feature is implemented
+    public int insertMilestone(@RequestBody MilestoneRequest milestone) {
+        // TODO: Set user_id from logged-in session when login feature is implemented
         return milestoneService.insert(milestone);
     }
 
     @GetMapping("/{id}")
-    public MilestoneResponse selectMilestone(@PathVariable int id){
+    public MilestoneResponse selectMilestone(@PathVariable int id) {
         return milestoneService.select(id);
     }
 
     @PutMapping("/{id}")
-    public int updateMilestone(@PathVariable int id,@RequestBody MilestoneRequest milestone){
+    public int updateMilestone(@PathVariable int id, @RequestBody MilestoneRequest milestone) {
         milestone.setId(id);
-    // TODO: Set user_id from logged-in session when login feature is implemented
+        // TODO: Set user_id from logged-in session when login feature is implemented
         return milestoneService.update(milestone);
     }
 
     @DeleteMapping("/{id}")
-    public int deleteMilestone(@PathVariable int id){
+    public int deleteMilestone(@PathVariable int id) {
         return milestoneService.delete(id);
     }
 

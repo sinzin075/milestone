@@ -8,22 +8,30 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class MilestoneService{
+public class MilestoneService {
 
     private MilestoneRepository milestoneRepository;
 
-    public MilestoneService(MilestoneRepository milestoneRepository){this.milestoneRepository=milestoneRepository;}
+    public MilestoneService(MilestoneRepository milestoneRepository) {
+        this.milestoneRepository = milestoneRepository;
+    }
 
-    public Milestone convertToMilestoneUpdate(MilestoneRequest milestoneRequest){
-        Milestone milestone=milestoneRepository.select(milestoneRequest.getId());
+    public Milestone convertToMilestoneUpdate(MilestoneRequest milestoneRequest) {
+        Milestone milestone = milestoneRepository.select(milestoneRequest.getId());
         milestone.setGoalId(milestoneRequest.getGoalId());
-        if(milestoneRequest.getTitle()!=null){milestone.setTitle(milestoneRequest.getTitle());}
-        if(milestoneRequest.getContent()!=null){milestone.setContent(milestoneRequest.getContent());}
-        if(milestoneRequest.getDate()!=null){milestone.setDate(milestoneRequest.getDate());}
+        if (milestoneRequest.getTitle() != null) {
+            milestone.setTitle(milestoneRequest.getTitle());
+        }
+        if (milestoneRequest.getContent() != null) {
+            milestone.setContent(milestoneRequest.getContent());
+        }
+        if (milestoneRequest.getDate() != null) {
+            milestone.setDate(milestoneRequest.getDate());
+        }
         return milestone;
     }
 
-    public MilestoneResponse convertToMilestoneResponse(Milestone milestone){
+    public MilestoneResponse convertToMilestoneResponse(Milestone milestone) {
         MilestoneResponse milestoneResponse = new MilestoneResponse();
         milestoneResponse.setId(milestone.getId());
         milestoneResponse.setGoalId(milestone.getGoalId());
@@ -31,12 +39,16 @@ public class MilestoneService{
         milestoneResponse.setContent(milestone.getContent());
         milestoneResponse.setDate(milestone.getDate());
         milestoneResponse.setCreatedAt(milestone.getCreatedAt());
-        if(milestone.getUpdatedAt()!=null){milestoneResponse.setUpdatedAt(milestone.getUpdatedAt());}
-        if(milestone.getDeletedAt()!=null){milestoneResponse.setDeletedAt(milestone.getDeletedAt());}
+        if (milestone.getUpdatedAt() != null) {
+            milestoneResponse.setUpdatedAt(milestone.getUpdatedAt());
+        }
+        if (milestone.getDeletedAt() != null) {
+            milestoneResponse.setDeletedAt(milestone.getDeletedAt());
+        }
         return milestoneResponse;
     }
 
-    public int insert(MilestoneRequest milestoneRequest){
+    public int insert(MilestoneRequest milestoneRequest) {
         Milestone milestone = new Milestone();
         milestone.setGoalId(milestoneRequest.getGoalId());
         milestone.setTitle(milestoneRequest.getTitle());
@@ -45,15 +57,15 @@ public class MilestoneService{
         return milestoneRepository.insert(milestone);
     }
 
-    public MilestoneResponse select(int id){
+    public MilestoneResponse select(int id) {
         return convertToMilestoneResponse(milestoneRepository.select(id));
     }
 
-    public int update(MilestoneRequest milestone){
+    public int update(MilestoneRequest milestone) {
         return milestoneRepository.update(convertToMilestoneUpdate(milestone));
     }
 
-    public int delete(int id){
+    public int delete(int id) {
         return milestoneRepository.delete(id);
     }
 }

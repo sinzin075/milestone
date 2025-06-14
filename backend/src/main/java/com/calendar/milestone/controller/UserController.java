@@ -14,32 +14,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/users")
-public class UserController{
+public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService){this.userService=userService;}
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
-    public int insertUser(@RequestBody UserRequest user){
+    public int insertUser(@RequestBody UserRequest user) {
         return userService.insert(user);
     }
 
     @GetMapping("/{id}")
-    public UserResponse selectUser(@PathVariable int id){
+    public UserResponse selectUser(@PathVariable int id) {
         return userService.select(id);
     }
 
     @PutMapping("/{id}")
-    public int updateUser(@PathVariable int id, @RequestBody UserRequest user){
+    public int updateUser(@PathVariable int id, @RequestBody UserRequest user) {
         user.setId(id);
         return userService.update(user);
     }
 
     @DeleteMapping("/{id}")
-    public int deleteUser(@PathVariable int id){
+    public int deleteUser(@PathVariable int id) {
         return userService.delete(id);
     }
-    
+
 
 
 }
