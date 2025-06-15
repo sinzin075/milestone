@@ -3,6 +3,7 @@ package com.calendar.milestone.controller;
 import com.calendar.milestone.controller.dto.request.UserRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public int insertUser(@RequestBody UserRequest user) {
+    public int insertUser(@RequestBody @Valid UserRequest user) {
         return userService.insert(user);
     }
 
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public int updateUser(@PathVariable int id, @RequestBody UserRequest user) {
+    public int updateUser(@PathVariable int id, @RequestBody @Valid UserRequest user) {
         user.setId(id);
         return userService.update(user);
     }

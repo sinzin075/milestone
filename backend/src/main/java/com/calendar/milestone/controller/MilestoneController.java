@@ -4,6 +4,7 @@ package com.calendar.milestone.controller;
 import com.calendar.milestone.controller.dto.request.MilestoneRequest;
 import com.calendar.milestone.controller.dto.response.MilestoneResponse;
 import com.calendar.milestone.model.service.MilestoneService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class MilestoneController {
     }
 
     @PostMapping
-    public int insertMilestone(@RequestBody MilestoneRequest milestone) {
+    public int insertMilestone(@RequestBody @Valid MilestoneRequest milestone) {
         // TODO: Set user_id from logged-in session when login feature is implemented
         return milestoneService.insert(milestone);
     }
@@ -34,7 +35,8 @@ public class MilestoneController {
     }
 
     @PutMapping("/{id}")
-    public int updateMilestone(@PathVariable int id, @RequestBody MilestoneRequest milestone) {
+    public int updateMilestone(@PathVariable int id,
+            @RequestBody @Valid MilestoneRequest milestone) {
         milestone.setId(id);
         // TODO: Set user_id from logged-in session when login feature is implemented
         return milestoneService.update(milestone);
