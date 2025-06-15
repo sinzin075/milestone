@@ -1,5 +1,6 @@
 package com.calendar.milestone.controller;
 
+import com.calendar.milestone.controller.dto.request.UserPutRequest;
 import com.calendar.milestone.controller.dto.request.UserRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.service.UserService;
@@ -33,8 +34,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public int updateUser(@PathVariable int id, @RequestBody @Valid UserRequest user) {
+    public int updateUser(@PathVariable int id, @RequestBody @Valid UserPutRequest user) {
         user.setId(id);
+        System.out.println("User Controller");
         return userService.update(user);
     }
 

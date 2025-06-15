@@ -1,5 +1,6 @@
 package com.calendar.milestone.model.service;
 
+import com.calendar.milestone.controller.dto.request.UserPutRequest;
 import com.calendar.milestone.controller.dto.request.UserRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.entity.User;
@@ -16,7 +17,7 @@ public class UserService {
     }
 
 
-    public User convertToUserUpdate(UserRequest userRequest) {
+    public User convertToUserUpdate(UserPutRequest userRequest) {
         User user = userRepository.select(userRequest.getId());
         if (userRequest.getName() != null) {
             user.setName(userRequest.getName());
@@ -68,8 +69,9 @@ public class UserService {
         return userRepository.insert(user);
     }
 
-    public int update(UserRequest userRequest) {
-        return userRepository.update(convertToUserUpdate(userRequest));
+    public int update(UserPutRequest userPutRequest) {
+        System.out.println("User service");
+        return userRepository.update(convertToUserUpdate(userPutRequest));
     }
 
     public UserResponse select(int id) {
