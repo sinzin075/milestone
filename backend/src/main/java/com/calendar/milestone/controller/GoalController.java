@@ -3,8 +3,8 @@ package com.calendar.milestone.controller;
 
 import com.calendar.milestone.controller.dto.request.GoalRequest;
 import com.calendar.milestone.controller.dto.response.GoalResponse;
-import com.calendar.milestone.model.entity.Goal;
 import com.calendar.milestone.model.service.GoalService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class GoalController {
     }
 
     @PostMapping
-    public int insertGoal(@RequestBody GoalRequest goal) {
+    public int insertGoal(@RequestBody @Valid GoalRequest goal) {
         // TODO: Set user_id from logged-in session when login feature is implemented
         return goalService.insert(goal);
     }
@@ -35,7 +35,7 @@ public class GoalController {
     }
 
     @PutMapping("/{id}")
-    public int updateGoal(@PathVariable int id, @RequestBody GoalRequest goal) {
+    public int updateGoal(@PathVariable int id, @RequestBody @Valid GoalRequest goal) {
         goal.setId(id);
         // TODO: Set user_id from logged-in session when login feature is implemented
         return goalService.update(goal);
