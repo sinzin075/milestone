@@ -50,9 +50,10 @@ public class UserRepository {
     }
 
     public int insert(User user) {
-        final String sql = "insert into users(name,photo,birthday,email) values(?,?,?,?)";
+        final String sql =
+                "insert into users(name,photo,birthday,email,password) values(?,?,?,?,?)";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail());
+                user.getEmail(), user.getPassword());
     }
 
     public int update(User user) {
