@@ -5,6 +5,7 @@ import com.calendar.milestone.controller.dto.request.UserRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
+import com.calendar.milestone.model.value.Password;
 import org.springframework.stereotype.Service;
 
 
@@ -17,19 +18,22 @@ public class UserService {
     }
 
 
-    public User convertToUserUpdate(UserPutRequest userRequest) {
-        User user = userRepository.select(userRequest.getId());
-        if (userRequest.getName() != null) {
-            user.setName(userRequest.getName());
+    public User convertToUserUpdate(UserPutRequest userPutRequest) {
+        User user = userRepository.select(userPutRequest.getId());
+        if (userPutRequest.getName() != null) {
+            user.setName(userPutRequest.getName());
         }
-        if (userRequest.getEmail() != null) {
-            user.setEmail(userRequest.getEmail());
+        if (userPutRequest.getEmail() != null) {
+            user.setEmail(userPutRequest.getEmail());
         }
-        if (userRequest.getPhoto() != null) {
-            user.setPhoto(userRequest.getPhoto());
+        if (userPutRequest.getPhoto() != null) {
+            user.setPhoto(userPutRequest.getPhoto());
         }
-        if (userRequest.getBirthday() != null) {
-            user.setBirthday(userRequest.getBirthday());
+        if (userPutRequest.getBirthday() != null) {
+            user.setBirthday(userPutRequest.getBirthday());
+        }
+        if (userPutRequest.getPassword() != null) {
+            user.setPassword(Password.encode(userPutRequest.getPassword()));
         }
         return user;
     }
@@ -70,7 +74,6 @@ public class UserService {
     }
 
     public int update(UserPutRequest userPutRequest) {
-        System.out.println("User service");
         return userRepository.update(convertToUserUpdate(userPutRequest));
     }
 

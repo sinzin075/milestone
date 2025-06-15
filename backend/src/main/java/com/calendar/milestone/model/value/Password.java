@@ -23,4 +23,8 @@ public class Password {
         return new Password(defaultPassword);
     }
 
+    public String getEncordedPassword() {
+        return encodedPassword;
+    }
+
 }

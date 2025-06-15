@@ -56,9 +56,10 @@ public class UserRepository {
     }
 
     public int update(User user) {
-        final String sql = "update users set name=?,photo=?,birthday=?,email=? where id=?";
+        final String sql =
+                "update users set name=?,photo=?,birthday=?,email=?,password=? where id=?";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getId());
+                user.getEmail(), user.getPassword().getEncordedPassword(), user.getId());
     }
 
     public int delete(int id) {
