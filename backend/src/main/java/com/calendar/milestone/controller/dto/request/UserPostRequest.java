@@ -9,9 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class UserRequest {
-    @JsonProperty("id")
-    private Integer id;
+public class UserPostRequest {
 
     @JsonProperty("name")
     @NotNull
@@ -36,10 +34,6 @@ public class UserRequest {
     @Size(min = 8, max = 200)
     private String password;
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -58,10 +52,6 @@ public class UserRequest {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setName(String name) {
