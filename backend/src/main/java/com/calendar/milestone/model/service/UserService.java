@@ -1,7 +1,7 @@
 package com.calendar.milestone.model.service;
 
 import com.calendar.milestone.controller.dto.request.UserPutRequest;
-import com.calendar.milestone.controller.dto.request.UserRequest;
+import com.calendar.milestone.controller.dto.request.UserPostRequest;
 import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
@@ -60,15 +60,16 @@ public class UserService {
     }
 
 
-    public int insert(UserRequest userRequest) {
+    public int insert(UserPostRequest userPostRequest) {
         User user = new User();
-        user.setName(userRequest.getName());
-        user.setEmail(userRequest.getEmail());
-        if (userRequest.getPhoto() != null) {
-            user.setPhoto(userRequest.getPhoto());
+        user.setName(userPostRequest.getName());
+        user.setEmail(userPostRequest.getEmail());
+        user.setPassword(Password.encode(userPostRequest.getPassword()));
+        if (userPostRequest.getPhoto() != null) {
+            user.setPhoto(userPostRequest.getPhoto());
         }
-        if (userRequest.getBirthday() != null) {
-            user.setBirthday(userRequest.getBirthday());
+        if (userPostRequest.getBirthday() != null) {
+            user.setBirthday(userPostRequest.getBirthday());
         }
         return userRepository.insert(user);
     }
