@@ -53,7 +53,7 @@ public class UserRepository {
         final String sql =
                 "insert into users(name,photo,birthday,email,password) values(?,?,?,?,?)";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getPassword());
+                user.getEmail(), user.getPassword().getEncordedPassword());
     }
 
     public int update(User user) {
