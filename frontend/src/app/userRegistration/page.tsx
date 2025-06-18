@@ -6,8 +6,10 @@ import {useEffect, useState} from 'react';
 export default function userRegistration(){
     const[userName,setUserName]=useState('');
     const[email,setEmail]=useState('');
+    const[password,setPassword]=useState('');
     const[userNameError,setUserNameError]=useState<string|null>(null);
     const[emailError,setEmailError]=useState<string|null>(null);
+    const[passwordError,setPasswordError]=useState<string|null>(null);
     const[status, setStatus] = useState('typing');
 
 
@@ -16,6 +18,7 @@ export default function userRegistration(){
     setStatus('submitting');
     setUserNameError(null);
     setEmailError(null);
+    setPasswordError(null);
     let errorStatus=false;
 
     try {
@@ -32,10 +35,18 @@ export default function userRegistration(){
         setEmailError(error.message);
     }
 
+    try{
+        await validatePassword(password);
+    }catch(error:any){
+        errorStatus=true;
+        setPasswordError(error.message);
+    }
+
+
     if(!errorStatus){
         const res = await fetch("http://localhost:8080/users",{
             method:"POST",
-            body:JSON.stringify({name:userName,email:email}),
+            body:JSON.stringify({name:userName,email:email,password:password}),
             headers:{
                 "Content-Type":"application/json",
             },
@@ -81,6 +92,16 @@ export default function userRegistration(){
                     onChange={e=>setEmail(e.target.value)}
                 />
                 <div id="emailError" className="text-red-500 text-sm mt-1">{emailError}</div>
+                <h4 className="mb-1">Password</h4>
+                <input
+                    type="text"
+                    placeholder="Password"
+                    className="w-full placeholder-gray-400 border-2 rounded-md p-1 mb-2"
+                    name='Password'
+                    value={password}
+                    onChange={e=>setPassword(e.target.value)}
+                />
+                <div id="passwordError" className="text-red-500 text-sm mt-1">{passwordError}</div>
                 </div>
             </div>
 
@@ -108,11 +129,19 @@ function validateUserName(userName:string):Promise<boolean>{
 function validateEmail(email: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
     const regex = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
-
     if (!regex.test(email)) {
         return reject(new Error("Please use a valid email format (example@gmail.com)"));
     }
-
+    return resolve(true);
+    });
+}
+function validatePassword(password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,20}$/;
+    if (!regex.test(password)) {
+        return reject(
+        new Error("Password must be 8-20 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character."));
+    }
     return resolve(true);
     });
 }
