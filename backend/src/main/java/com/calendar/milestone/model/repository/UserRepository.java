@@ -53,14 +53,14 @@ public class UserRepository {
         final String sql =
                 "insert into users(name,photo,birthday,email,password) values(?,?,?,?,?)";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getPassword().getEncordedPassword());
+                user.getEmail(), user.getPassword().getEncodedPassword());
     }
 
     public int update(User user) {
         final String sql =
                 "update users set name=?,photo=?,birthday=?,email=?,password=? where id=?";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getPassword().getEncordedPassword(), user.getId());
+                user.getEmail(), user.getPassword().getEncodedPassword(), user.getId());
     }
 
     public int delete(int id) {
