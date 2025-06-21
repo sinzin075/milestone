@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
@@ -32,6 +33,9 @@ public class UserPostRequest {
     @JsonProperty("password")
     @NotNull
     @Size(min = 8, max = 200)
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\[\\]{};':\"\\\\|,.<>/?]).{8,20}$",
+            message = "Password must contain uppercase, lowercase, digit, and special character.")
     private String password;
 
     public String getName() {
