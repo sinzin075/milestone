@@ -29,7 +29,7 @@ public class Password {
         return new Password(defaultPassword);
     }
 
-    public String getEncordedPassword() {
+    public String getEncodedPassword() {
         return encodedPassword;
     }
 
