@@ -7,6 +7,9 @@ public class Password {
     final String encodedPassword;
     private final int PASSWORD_LENGTH_MIN = 8;
     private final int PASSWORD_LENGTH_MAX = 20;
+    private final String REGEX =
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\[\\]{};':\"\\\\|,.<>/?]).{"
+                    + PASSWORD_LENGTH_MIN + "," + PASSWORD_LENGTH_MAX + "}$";
 
     private Password(String defaultPassword) throws IllegalArgumentException {
         if (defaultPassword.length() < PASSWORD_LENGTH_MIN) {
@@ -14,6 +17,9 @@ public class Password {
         }
         if (defaultPassword.length() > PASSWORD_LENGTH_MAX) {
             throw new IllegalArgumentException("Argument too long");
+        }
+        if (!defaultPassword.matches(REGEX)) {
+            throw new IllegalArgumentException("Not matched this password to regex");
         }
         encodedPassword = passwordEncoder.encode(defaultPassword);
 
