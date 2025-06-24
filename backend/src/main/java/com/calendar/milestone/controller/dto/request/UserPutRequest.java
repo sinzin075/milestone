@@ -3,6 +3,7 @@ package com.calendar.milestone.controller.dto.request;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserPutRequest {
@@ -29,7 +30,10 @@ public class UserPutRequest {
     private String email;
 
     @JsonProperty("password")
-    @Size(min = 8, max = 200)
+    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters.")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\[\\]{};':\"\\\\|,.<>/?]).{8,20}$",
+            message = "Password must contain uppercase, lowercase, digit, and special character.")
     private String password;
 
     public Integer getId() {
