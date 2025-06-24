@@ -9,6 +9,7 @@ create table if not exists users(
     created_at datetime default current_timestamp not null,
     updated_at datetime default current_timestamp on update current_timestamp,
     deleted_at datetime default NULL,
+    unique (email),
     primary key(id)
 );
 
