@@ -2,6 +2,7 @@ package com.calendar.milestone.model.repository;
 
 
 import com.calendar.milestone.model.entity.User;
+import com.calendar.milestone.model.value.Email;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
@@ -30,7 +31,7 @@ public class UserRepository {
                 if (rs.getDate("birthday") != null) {
                     userMap.setBirthday(rs.getDate("birthday").toLocalDate());
                 }
-                userMap.setEmail(rs.getString("email"));
+                userMap.setEmail(Email.of(rs.getString("email")));
                 Timestamp timestampCreated = rs.getTimestamp("created_at");
                 Timestamp timestampUpdated = rs.getTimestamp("updated_at");
                 Timestamp timestampDeleted = rs.getTimestamp("deleted_at");
@@ -53,14 +54,15 @@ public class UserRepository {
         final String sql =
                 "insert into users(name,photo,birthday,email,password) values(?,?,?,?,?)";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getPassword().getEncodedPassword());
+                user.getEmailObject().getValue(), user.getPassword().getEncodedPassword());
     }
 
     public int update(User user) {
         final String sql =
                 "update users set name=?,photo=?,birthday=?,email=?,password=? where id=?";
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
-                user.getEmail(), user.getPassword().getEncodedPassword(), user.getId());
+                user.getEmailObject().getValue(), user.getPassword().getEncodedPassword(),
+                user.getId());
     }
 
     public int delete(int id) {

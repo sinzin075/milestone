@@ -8,7 +8,7 @@ public class EmailTest {
     @Test
     void validEmail_shouldCreateInstance() {
         Email email = Email.of("user@example.com");
-        assertEquals("user@example.com", email.getEmail());
+        assertEquals("user@example.com", email.getValue());
     }
 
     @Test
