@@ -46,7 +46,7 @@ public class User {
         return birthday;
     }
 
-    public Email getEmail() {
+    public Email getEmailObject() {
         return email;
     }
 
