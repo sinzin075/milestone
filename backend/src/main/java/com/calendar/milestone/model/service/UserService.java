@@ -6,6 +6,7 @@ import com.calendar.milestone.controller.dto.response.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
 import com.calendar.milestone.model.value.Password;
+import com.calendar.milestone.model.value.Email;
 import org.springframework.stereotype.Service;
 
 
@@ -24,7 +25,7 @@ public class UserService {
             user.setName(userPutRequest.getName());
         }
         if (userPutRequest.getEmail() != null) {
-            user.setEmail(userPutRequest.getEmail());
+            user.setEmail(Email.of(userPutRequest.getEmail()));
         }
         if (userPutRequest.getPhoto() != null) {
             user.setPhoto(userPutRequest.getPhoto());
@@ -42,7 +43,7 @@ public class UserService {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
         userResponse.setName(user.getName());
-        userResponse.setEmail(user.getEmail());
+        userResponse.setEmail(user.getEmailObject().getValue());
         userResponse.setCreatedAt(user.getCreatedAt());
         if (user.getPhoto() != null) {
             userResponse.setPhoto(user.getPhoto());
@@ -63,7 +64,7 @@ public class UserService {
     public int insert(UserPostRequest userPostRequest) {
         User user = new User();
         user.setName(userPostRequest.getName());
-        user.setEmail(userPostRequest.getEmail());
+        user.setEmail(Email.of(userPostRequest.getEmail()));
         user.setPassword(Password.encode(userPostRequest.getPassword()));
         if (userPostRequest.getPhoto() != null) {
             user.setPhoto(userPostRequest.getPhoto());
