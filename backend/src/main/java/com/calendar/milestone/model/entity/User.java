@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.calendar.milestone.model.value.Password;
+import com.calendar.milestone.model.value.Email;
 
 
 public class User {
@@ -11,7 +12,7 @@ public class User {
     private String name;
     private String photo;
     private LocalDate birthday;
-    private String email;
+    private Email email;
     private Password password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -20,7 +21,7 @@ public class User {
     public User() {}
 
     public User(final int id, final String name, final String photo, final LocalDate birthday,
-            final String email, Password password) {
+            final Email email, final Password password) {
         this.id = id;
         this.name = name;
         this.photo = photo;
@@ -45,7 +46,7 @@ public class User {
         return birthday;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
@@ -82,7 +83,7 @@ public class User {
         this.birthday = birthday;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
