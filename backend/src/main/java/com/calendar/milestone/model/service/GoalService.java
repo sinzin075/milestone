@@ -1,7 +1,7 @@
 package com.calendar.milestone.model.service;
 
-import com.calendar.milestone.controller.dto.request.GoalRequest;
-import com.calendar.milestone.controller.dto.response.GoalResponse;
+import com.calendar.milestone.controller.dto.request.goal.GoalRequest;
+import com.calendar.milestone.controller.dto.response.goal.GoalResponse;
 import com.calendar.milestone.model.entity.Goal;
 import com.calendar.milestone.model.repository.GoalRepository;
 import org.springframework.stereotype.Service;

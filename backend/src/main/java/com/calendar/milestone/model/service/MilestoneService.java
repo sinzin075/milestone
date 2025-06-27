@@ -1,7 +1,7 @@
 package com.calendar.milestone.model.service;
 
-import com.calendar.milestone.controller.dto.request.MilestoneRequest;
-import com.calendar.milestone.controller.dto.response.MilestoneResponse;
+import com.calendar.milestone.controller.dto.request.milestone.MilestoneRequest;
+import com.calendar.milestone.controller.dto.response.milestone.MilestoneResponse;
 import com.calendar.milestone.model.entity.Milestone;
 import com.calendar.milestone.model.repository.MilestoneRepository;
 import org.springframework.stereotype.Service;

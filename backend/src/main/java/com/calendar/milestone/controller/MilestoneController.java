@@ -1,8 +1,8 @@
 package com.calendar.milestone.controller;
 
 
-import com.calendar.milestone.controller.dto.request.MilestoneRequest;
-import com.calendar.milestone.controller.dto.response.MilestoneResponse;
+import com.calendar.milestone.controller.dto.request.milestone.MilestoneRequest;
+import com.calendar.milestone.controller.dto.response.milestone.MilestoneResponse;
 import com.calendar.milestone.model.service.MilestoneService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;

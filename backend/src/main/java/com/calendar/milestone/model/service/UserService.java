@@ -1,8 +1,8 @@
 package com.calendar.milestone.model.service;
 
-import com.calendar.milestone.controller.dto.request.UserPutRequest;
-import com.calendar.milestone.controller.dto.request.UserPostRequest;
-import com.calendar.milestone.controller.dto.response.UserResponse;
+import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
+import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
+import com.calendar.milestone.controller.dto.response.user.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
 import com.calendar.milestone.model.value.Password;

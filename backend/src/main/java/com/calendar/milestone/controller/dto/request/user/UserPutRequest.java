@@ -1,4 +1,4 @@
-package com.calendar.milestone.controller.dto.request;
+package com.calendar.milestone.controller.dto.request.user;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
