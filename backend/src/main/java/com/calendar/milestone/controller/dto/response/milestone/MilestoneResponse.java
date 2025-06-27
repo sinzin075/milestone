@@ -1,4 +1,4 @@
-package com.calendar.milestone.controller.dto.response;
+package com.calendar.milestone.controller.dto.response.milestone;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
