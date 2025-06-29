@@ -3,6 +3,7 @@ package com.calendar.milestone.model.repository;
 
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.value.Email;
+import com.calendar.milestone.model.value.Password;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
@@ -50,6 +51,18 @@ public class UserRepository {
         return user;
     }
 
+    public String findPassword(Email email) {
+        final String sql = "select password from users where email=?";
+        String password = jdbcTemplate.queryForObject(sql, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                String passwordMap = rs.getString("password");
+                return passwordMap;
+            }
+        },email.getValue());
+        return password;
+    }
+
     public int insert(User user) {
         final String sql =
                 "insert into users(name,photo,birthday,email,password) values(?,?,?,?,?)";
@@ -63,6 +76,11 @@ public class UserRepository {
         return jdbcTemplate.update(sql, user.getName(), user.getPhoto(), user.getBirthday(),
                 user.getEmailObject().getValue(), user.getPassword().getEncodedPassword(),
                 user.getId());
+    }
+
+    public int updateEmail(final int id, final Email email) {
+        final String sql = "update users set email=? where id=?";
+        return jdbcTemplate.update(sql,email.getValue(),id);
     }
 
     public int delete(int id) {
