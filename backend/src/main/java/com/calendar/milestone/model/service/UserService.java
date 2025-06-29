@@ -1,11 +1,15 @@
 package com.calendar.milestone.model.service;
 
+import com.calendar.milestone.controller.dto.request.user.UserEmailChangeRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
+import com.calendar.milestone.controller.dto.response.common.ApiStatus;
+import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
 import com.calendar.milestone.controller.dto.response.user.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
 import com.calendar.milestone.model.value.Password;
+import com.calendar.milestone.model.value.RawPassword;
 import com.calendar.milestone.model.value.Email;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final int STATUS_CHANGE_SUCCESS = 1;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -39,6 +44,7 @@ public class UserService {
         return user;
     }
 
+
     public UserResponse convertToUserResponse(final User user) {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
@@ -60,7 +66,6 @@ public class UserService {
         return userResponse;
     }
 
-
     public int insert(UserPostRequest userPostRequest) {
         User user = new User();
         user.setName(userPostRequest.getName());
@@ -77,6 +82,20 @@ public class UserService {
 
     public int update(UserPutRequest userPutRequest) {
         return userRepository.update(convertToUserUpdate(userPutRequest));
+    }
+
+    public UserApiStatusResponse emailUpdate(final UserEmailChangeRequest userEmail)
+            throws IllegalArgumentException {
+        RawPassword rawPassword = RawPassword.of(userEmail.getPassword());
+        String usagePassword = userRepository.findPassword(Email.of(userEmail.getCurrentEmail()));
+        if (!rawPassword.passwordMatch(usagePassword)) {
+            return new UserApiStatusResponse(ApiStatus.UNAUTHORIZED);
+        }
+        if (userRepository.updateEmail(userEmail.getId(),
+                Email.of(userEmail.getNewEmail())) != STATUS_CHANGE_SUCCESS) {
+            return new UserApiStatusResponse(ApiStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new UserApiStatusResponse(ApiStatus.OK);
     }
 
     public UserResponse select(int id) {
