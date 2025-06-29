@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 public class UserEmailChangeRequest {
 
     @JsonProperty("id")
-    @NotNull
     private Integer id;
 
     @JsonProperty("currentEmail")
