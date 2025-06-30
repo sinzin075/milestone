@@ -1,6 +1,7 @@
 package com.calendar.milestone.controller;
 
 import com.calendar.milestone.controller.dto.request.user.UserEmailChangeRequest;
+import com.calendar.milestone.controller.dto.request.user.UserPasswordChangeRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
 import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
@@ -47,6 +48,13 @@ public class UserController {
             @RequestBody @Valid UserEmailChangeRequest user) {
         user.setId(id);
         return userService.emailUpdate(user);
+    }
+
+    @PatchMapping("/{id}/password")
+    public UserApiStatusResponse userPasswordUpdate(@PathVariable int id,
+            @RequestBody @Valid UserPasswordChangeRequest user) {
+        user.setId(id);
+        return userService.passwordUpdate(user);
     }
 
     @DeleteMapping("/{id}")
