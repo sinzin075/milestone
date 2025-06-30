@@ -59,7 +59,7 @@ public class UserRepository {
                 String passwordMap = rs.getString("password");
                 return passwordMap;
             }
-        },email.getValue());
+        }, email.getValue());
         return password;
     }
 
@@ -80,7 +80,12 @@ public class UserRepository {
 
     public int updateEmail(final int id, final Email email) {
         final String sql = "update users set email=? where id=?";
-        return jdbcTemplate.update(sql,email.getValue(),id);
+        return jdbcTemplate.update(sql, email.getValue(), id);
+    }
+
+    public int updatePassword(final int id, final Password password) {
+        final String sql = "update users set password=? where id=?";
+        return jdbcTemplate.update(sql, password.getEncodedPassword(), id);
     }
 
     public int delete(int id) {
