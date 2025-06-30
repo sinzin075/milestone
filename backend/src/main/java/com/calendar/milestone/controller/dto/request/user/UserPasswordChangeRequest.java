@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 public class UserPasswordChangeRequest {
 
     @JsonProperty("id")
-    @NotNull
     private Integer id;
 
     @JsonProperty("email")
