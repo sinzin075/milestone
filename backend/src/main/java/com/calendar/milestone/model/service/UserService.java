@@ -1,6 +1,7 @@
 package com.calendar.milestone.model.service;
 
 import com.calendar.milestone.controller.dto.request.user.UserEmailChangeRequest;
+import com.calendar.milestone.controller.dto.request.user.UserPasswordChangeRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
 import com.calendar.milestone.controller.dto.response.common.ApiStatus;
@@ -93,6 +94,20 @@ public class UserService {
         }
         if (userRepository.updateEmail(userEmail.getId(),
                 Email.of(userEmail.getNewEmail())) != STATUS_CHANGE_SUCCESS) {
+            return new UserApiStatusResponse(ApiStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new UserApiStatusResponse(ApiStatus.OK);
+    }
+
+    public UserApiStatusResponse passwordUpdate(final UserPasswordChangeRequest user)
+            throws IllegalArgumentException {
+        RawPassword rawPassword = RawPassword.of(user.getCurrentPassword());
+        String usagePassword = userRepository.findPassword(Email.of(user.getEmail()));
+        if (!rawPassword.passwordMatch(usagePassword)) {
+            return new UserApiStatusResponse(ApiStatus.UNAUTHORIZED);
+        }
+        Password newPassword = Password.encode(user.getNewPassword());
+        if (userRepository.updatePassword(user.getId(), newPassword) != STATUS_CHANGE_SUCCESS) {
             return new UserApiStatusResponse(ApiStatus.INTERNAL_SERVER_ERROR);
         }
         return new UserApiStatusResponse(ApiStatus.OK);
