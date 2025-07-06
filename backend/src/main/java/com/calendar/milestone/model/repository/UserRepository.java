@@ -4,6 +4,7 @@ package com.calendar.milestone.model.repository;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.value.Email;
 import com.calendar.milestone.model.value.Password;
+import com.calendar.milestone.model.value.UserId;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
@@ -49,6 +50,17 @@ public class UserRepository {
             }
         }, id);
         return user;
+    }
+
+    public UserId selectLoginUserId(Email email) {
+        final String sql = "select id from users where email=?";
+        UserId userId = jdbcTemplate.queryForObject(sql, new RowMapper<UserId>() {
+            @Override
+            public UserId mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return UserId.of(rs.getInt("id"));
+            }
+        }, email.getValue());
+        return userId;
     }
 
     public String findPassword(Email email) {
