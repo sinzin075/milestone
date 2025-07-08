@@ -1,16 +1,16 @@
 package com.calendar.milestone.model.value;
 
-import com.calendar.milestone.model.entity.User;
+
 
 public class JwtPayload {
     private final int payloadId;
 
-    private JwtPayload(final User user) {
-        payloadId = user.getId();
+    private JwtPayload(final UserId userId) {
+        payloadId = userId.getValue();
     }
 
-    public static JwtPayload of(final User user) {
-        return new JwtPayload(user);
+    public static JwtPayload of(final UserId userId) {
+        return new JwtPayload(userId);
     }
 
     public String getPayloadId() {
