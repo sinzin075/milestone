@@ -1,17 +1,15 @@
 package com.calendar.milestone.controller.dto.response.user;
 
+import com.calendar.milestone.controller.dto.response.common.ApiResponse;
 import com.calendar.milestone.controller.dto.response.common.ApiStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 
-public class UserApiStatusResponse {
+public class UserApiStatusResponse implements ApiResponse {
 
     @JsonProperty("statusCode")
-    @NotNull
     private Integer statusCode;
 
     @JsonProperty("statusMessage")
-    @NotNull
     private String statusMessage;
 
     public UserApiStatusResponse(final ApiStatus api) {
