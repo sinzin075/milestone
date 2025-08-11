@@ -8,11 +8,12 @@ import com.calendar.milestone.controller.dto.response.user.LoginResponse;
 import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
 import com.calendar.milestone.model.config.JwtSigningKeyConfig;
 import com.calendar.milestone.model.repository.UserRepository;
-import com.calendar.milestone.model.utility.JwtUtility;
 import com.calendar.milestone.model.value.Email;
 import com.calendar.milestone.model.value.JwtPayload;
 import com.calendar.milestone.model.value.RawPassword;
 import com.calendar.milestone.model.value.UserId;
+import com.calendar.milestone.security.token.JwtToken;
+import com.calendar.milestone.security.token.JwtTokenGenerator;
 
 @Service
 public class AuthService {
@@ -34,8 +35,8 @@ public class AuthService {
         ApiStatus apiStatus = ApiStatus.OK;
         final UserId userId = userRepository.selectLoginUserId(loginEmail);
         final JwtPayload jwtPayload = JwtPayload.of(userId);
-        final JwtUtility jwtUtility = JwtUtility.of(key, jwtPayload);
-        ApiResponse loginResponse = new LoginResponse(userId.getValue(), jwtUtility.getToken(),
+        final JwtToken jwtToken = JwtTokenGenerator.generateToken(key, jwtPayload);
+        ApiResponse loginResponse = new LoginResponse(userId.getValue(), jwtToken.getToken(),
                 apiStatus.getStatus(), apiStatus.getMessage());
         return loginResponse;
     }
