@@ -6,6 +6,7 @@ import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
 import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
 import com.calendar.milestone.controller.dto.response.user.UserResponse;
+import com.calendar.milestone.infrastructure.MilestoneLogger;
 import com.calendar.milestone.model.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/users")
@@ -27,39 +29,45 @@ public class UserController {
         this.userService = userService;
     }
 
+    private int extractUserId(Jwt jwt) {
+        return Integer.parseInt(jwt.getSubject());
+    }
+
     @PostMapping
     public int insertUser(@RequestBody @Valid UserPostRequest user) {
         return userService.insert(user);
     }
 
-    @GetMapping("/{id}")
-    public UserResponse selectUser(@PathVariable int id) {
-        return userService.select(id);
+    @GetMapping
+    public UserResponse selectUser(@AuthenticationPrincipal Jwt jwt) {
+        return userService.select(extractUserId(jwt));
     }
 
-    @PutMapping("/{id}")
-    public int updateUser(@PathVariable int id, @RequestBody @Valid UserPutRequest user) {
-        user.setId(id);
+    @PutMapping
+    public int updateUser(@AuthenticationPrincipal Jwt jwt,
+            @RequestBody @Valid UserPutRequest user) {
+        user.setId(extractUserId(jwt));
         return userService.update(user);
     }
 
-    @PatchMapping("/{id}/email")
-    public UserApiStatusResponse userEmailUpdate(@PathVariable int id,
+    @PatchMapping("/email")
+    public UserApiStatusResponse userEmailUpdate(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserEmailChangeRequest user) {
-        user.setId(id);
+        MilestoneLogger.info("UserのEmail変更を開始");
+        user.setId(extractUserId(jwt));
         return userService.emailUpdate(user);
     }
 
-    @PatchMapping("/{id}/password")
-    public UserApiStatusResponse userPasswordUpdate(@PathVariable int id,
+    @PatchMapping("/password")
+    public UserApiStatusResponse userPasswordUpdate(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserPasswordChangeRequest user) {
-        user.setId(id);
+        user.setId(extractUserId(jwt));
         return userService.passwordUpdate(user);
     }
 
-    @DeleteMapping("/{id}")
-    public int deleteUser(@PathVariable int id) {
-        return userService.delete(id);
+    @DeleteMapping
+    public int deleteUser(@AuthenticationPrincipal Jwt jwt) {
+        return userService.delete(extractUserId(jwt));
     }
 
 
