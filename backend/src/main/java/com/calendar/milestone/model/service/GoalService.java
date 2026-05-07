@@ -35,15 +35,9 @@ public class GoalService {
 
     public Goal convertToGoalUpdate(GoalRequest goalRequest) {
         Goal goal = goalRepository.select(goalRequest.getId());
-        if (goalRequest.getTitle() != null) {
-            goal.setTitle(goalRequest.getTitle());
-        }
-        if (goalRequest.getContent() != null) {
-            goal.setContent(goalRequest.getContent());
-        }
-        if (goalRequest.getDate() != null) {
-            goal.setDate(goalRequest.getDate());
-        }
+        goal.setTitle(goalRequest.getTitle());
+        goal.setContent(goalRequest.getContent());
+        goal.setDate(goalRequest.getDate());
         return goal;
     }
 
