@@ -22,7 +22,7 @@ public class GoalService {
         goalResponse.setUserId(goal.getUserId());
         goalResponse.setTitle(goal.getTitle());
         goalResponse.setContent(goal.getContent());
-        goalResponse.setDate(goal.getDate());
+        goalResponse.setDueDate(goal.getDueDate());
         goalResponse.setCreatedAt(goal.getCreatedAt());
         if (goal.getUpdatedAt() != null) {
             goalResponse.setUpdatedAt(goal.getUpdatedAt());
@@ -37,7 +37,7 @@ public class GoalService {
         Goal goal = goalRepository.select(goalRequest.getId());
         goal.setTitle(goalRequest.getTitle());
         goal.setContent(goalRequest.getContent());
-        goal.setDate(goalRequest.getDate());
+        goal.setDueDate(goalRequest.getDueDate());
         return goal;
     }
 
@@ -47,7 +47,7 @@ public class GoalService {
         goal.setUserId(goalRequest.getUserId());
         goal.setTitle(goalRequest.getTitle());
         goal.setContent(goalRequest.getContent());
-        goal.setDate(goalRequest.getDate());
+        goal.setDueDate(goalRequest.getDueDate());
         return goalRepository.insert(goal);
     }
 

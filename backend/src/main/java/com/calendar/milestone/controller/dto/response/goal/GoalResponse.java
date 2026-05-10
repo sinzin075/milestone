@@ -26,17 +26,17 @@ public class GoalResponse {
     @Size(max = 150)
     private String content;
 
-    @JsonProperty("date")
+    @JsonProperty("dueDate")
     @NotNull
-    private LocalDate date;
+    private LocalDate dueDate;
 
-    @JsonProperty("created_at")
+    @JsonProperty("createdAt")
     private LocalDateTime createdAt;
 
-    @JsonProperty("updated_at")
+    @JsonProperty("updatedAt")  
     private LocalDateTime updatedAt;
 
-    @JsonProperty("deleted_at")
+    @JsonProperty("deletedAt")
     private LocalDateTime deletedAt;
 
     public GoalResponse() {}
@@ -57,8 +57,8 @@ public class GoalResponse {
         return content;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -89,8 +89,8 @@ public class GoalResponse {
         this.content = content;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

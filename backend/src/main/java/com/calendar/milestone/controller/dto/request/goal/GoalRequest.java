@@ -11,7 +11,7 @@ public class GoalRequest {
     @JsonProperty("id")
     private int id;
 
-    @JsonProperty("user_id")
+    @JsonProperty("userId")
     private int userId;
 
     @JsonProperty("title")
@@ -24,9 +24,9 @@ public class GoalRequest {
     @Size(max = 150)
     private String content;
 
-    @JsonProperty("date")
+    @JsonProperty("dueDate")
     @NotNull
-    private LocalDate date;
+    private LocalDate dueDate;
 
     public GoalRequest() {}
 
@@ -46,8 +46,8 @@ public class GoalRequest {
         return content;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
     public void setId(int id) {
@@ -66,7 +66,7 @@ public class GoalRequest {
         this.content = content;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 }

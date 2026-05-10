@@ -29,7 +29,7 @@ public class GoalRepository {
                 goalMap.setUserId(rs.getInt("user_id"));
                 goalMap.setTitle(rs.getString("title"));
                 goalMap.setContent(rs.getString("content"));
-                goalMap.setDate(rs.getDate("date").toLocalDate());
+                goalMap.setDueDate(rs.getDate("due_date").toLocalDate());
                 Timestamp timestamp_created = rs.getTimestamp("created_at");
                 Timestamp timestamp_updated = rs.getTimestamp("updated_at");
                 Timestamp timestamp_deleted = rs.getTimestamp("deleted_at");
@@ -49,14 +49,14 @@ public class GoalRepository {
     }
 
     public int insert(Goal goal) {
-        final String sql = "insert into goals(user_id,title,content,date) values(?,?,?,?)";
+        final String sql = "insert into goals(user_id,title,content,due_date) values(?,?,?,?)";
         return jdbcTemplate.update(sql, goal.getUserId(), goal.getTitle(), goal.getContent(),
-                goal.getDate());
+                goal.getDueDate());
     }
 
     public int update(Goal goal) {
-        final String sql = "update goals set title=?,content=?,date=? where id=?";
-        return jdbcTemplate.update(sql, goal.getTitle(), goal.getContent(), goal.getDate(),
+        final String sql = "update goals set title=?,content=?,due_date=? where id=?";
+        return jdbcTemplate.update(sql, goal.getTitle(), goal.getContent(), goal.getDueDate(),
                 goal.getId());
     }
 
