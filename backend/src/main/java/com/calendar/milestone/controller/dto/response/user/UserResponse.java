@@ -32,13 +32,13 @@ public class UserResponse {
     @Size(max = 30)
     private String email;
 
-    @JsonProperty("created_at")
+    @JsonProperty("createdAt")
     private LocalDateTime createdAt;
 
-    @JsonProperty("updated_at")
+    @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
 
-    @JsonProperty("deleted_at")
+    @JsonProperty("deletedAt")
     private LocalDateTime deletedAt;
 
     public Integer getId() {
