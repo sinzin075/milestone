@@ -29,24 +29,24 @@ public class GoalController {
     }
 
     @PostMapping
-    public int insertGoal(@AuthenticationPrincipal Jwt jwt,@RequestBody @Valid GoalRequest goal) {
+    public int insert(@AuthenticationPrincipal Jwt jwt,@RequestBody @Valid GoalRequest goal) {
         goal.setUserId(jwtUserIdExtractor.extract(jwt));
         return goalService.insert(goal);
     }
 
     @GetMapping("/{id}")
-    public GoalResponse selectGoal(@PathVariable int id) {
+    public GoalResponse select(@PathVariable int id) {
         return goalService.select(id);
     }
 
     @PutMapping("/{id}")
-    public int updateGoal(@PathVariable int id, @RequestBody @Valid GoalRequest goal) {
+    public int update(@PathVariable int id, @RequestBody @Valid GoalRequest goal) {
         goal.setId(id);
         return goalService.update(goal);
     }
 
     @DeleteMapping("/{id}")
-    public int deleteGoal(@PathVariable int id) {
+    public int delete(@PathVariable int id) {
         return goalService.delete(id);
     }
 
