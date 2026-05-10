@@ -20,15 +20,9 @@ public class MilestoneService {
             // TODO:add column completed_at(completed flag)
         Milestone milestone = milestoneRepository.select(milestoneRequest.getId());
         milestone.setGoalId(milestoneRequest.getGoalId());
-        if (milestoneRequest.getTitle() != null) {
-            milestone.setTitle(milestoneRequest.getTitle());
-        }
-        if (milestoneRequest.getContent() != null) {
-            milestone.setContent(milestoneRequest.getContent());
-        }
-        if (milestoneRequest.getDueDate() != null) {
-            milestone.setDueDate(milestoneRequest.getDueDate());
-        }
+        milestone.setTitle(milestoneRequest.getTitle());
+        milestone.setContent(milestoneRequest.getContent());
+        milestone.setDueDate(milestoneRequest.getDueDate());
         return milestone;
     }
 
