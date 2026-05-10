@@ -17,6 +17,7 @@ public class MilestoneService {
     }
 
     public Milestone convertToMilestoneUpdate(MilestoneRequest milestoneRequest) {
+            // TODO:add column completed_at(completed flag)
         Milestone milestone = milestoneRepository.select(milestoneRequest.getId());
         milestone.setGoalId(milestoneRequest.getGoalId());
         if (milestoneRequest.getTitle() != null) {
@@ -25,19 +26,20 @@ public class MilestoneService {
         if (milestoneRequest.getContent() != null) {
             milestone.setContent(milestoneRequest.getContent());
         }
-        if (milestoneRequest.getDate() != null) {
-            milestone.setDate(milestoneRequest.getDate());
+        if (milestoneRequest.getDueDate() != null) {
+            milestone.setDueDate(milestoneRequest.getDueDate());
         }
         return milestone;
     }
 
     public MilestoneResponse convertToMilestoneResponse(Milestone milestone) {
+            // TODO:add column completed_at(completed flag)
         MilestoneResponse milestoneResponse = new MilestoneResponse();
         milestoneResponse.setId(milestone.getId());
         milestoneResponse.setGoalId(milestone.getGoalId());
         milestoneResponse.setTitle(milestone.getTitle());
         milestoneResponse.setContent(milestone.getContent());
-        milestoneResponse.setDate(milestone.getDate());
+        milestoneResponse.setDueDate(milestone.getDueDate());
         milestoneResponse.setCreatedAt(milestone.getCreatedAt());
         if (milestone.getUpdatedAt() != null) {
             milestoneResponse.setUpdatedAt(milestone.getUpdatedAt());
@@ -49,11 +51,12 @@ public class MilestoneService {
     }
 
     public int insert(MilestoneRequest milestoneRequest) {
+            // TODO:add column completed_at(completed flag)
         Milestone milestone = new Milestone();
         milestone.setGoalId(milestoneRequest.getGoalId());
         milestone.setTitle(milestoneRequest.getTitle());
         milestone.setContent(milestoneRequest.getContent());
-        milestone.setDate(milestoneRequest.getDate());
+        milestone.setDueDate(milestoneRequest.getDueDate());
         return milestoneRepository.insert(milestone);
     }
 

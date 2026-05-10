@@ -9,18 +9,19 @@ public class Milestone {
     private int goalId;
     private String title;
     private String content;
-    private LocalDate date;
+    private LocalDate dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
     public Milestone(final int id, final int goalId, final String title, final String content,
-            final LocalDate date) {
+            final LocalDate dueDate) {
         this.id = id;
         this.goalId = goalId;
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.dueDate = dueDate;
+    // TODO:add column completed_at(completed flag)
     }
 
     public Milestone() {}
@@ -41,8 +42,8 @@ public class Milestone {
         return content;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -73,8 +74,8 @@ public class Milestone {
         this.content = content;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
