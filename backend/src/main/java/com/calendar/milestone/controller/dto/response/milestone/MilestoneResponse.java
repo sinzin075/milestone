@@ -13,7 +13,7 @@ public class MilestoneResponse {
     @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("goal_id")
+    @JsonProperty("goalId")
     private Integer goalId;
 
     @JsonProperty("title")
@@ -26,17 +26,17 @@ public class MilestoneResponse {
     @Size(max = 150)
     private String content;
 
-    @JsonProperty("date")
+    @JsonProperty("dueDate")
     @NotNull
-    private LocalDate date;
+    private LocalDate dueDate;
 
-    @JsonProperty("created_at")
+    @JsonProperty("createdAt")
     private LocalDateTime createdAt;
 
-    @JsonProperty("updated_at")
+    @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
 
-    @JsonProperty("deleted_at")
+    @JsonProperty("deletedAt")
     private LocalDateTime deletedAt;
 
     public MilestoneResponse() {}
@@ -57,8 +57,8 @@ public class MilestoneResponse {
         return content;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -89,8 +89,8 @@ public class MilestoneResponse {
         this.content = content;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -104,6 +104,4 @@ public class MilestoneResponse {
     public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
-
-
 }

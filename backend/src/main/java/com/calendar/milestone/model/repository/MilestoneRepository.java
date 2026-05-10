@@ -18,6 +18,7 @@ public class MilestoneRepository {
     }
 
     public Milestone select(int id) {
+        // TODO:add column completed_at(completed flag)
         String sql = "select * from milestone where id=?";
         Milestone milestone = jdbcTemplate.queryForObject(sql, new RowMapper<Milestone>() {
             public Milestone mapRow(ResultSet rs, int rouNum) throws SQLException {
@@ -26,7 +27,7 @@ public class MilestoneRepository {
                 existMilestone.setGoalId(rs.getInt("goal_id"));
                 existMilestone.setTitle(rs.getString("title"));
                 existMilestone.setContent(rs.getString("content"));
-                existMilestone.setDate(rs.getDate("date").toLocalDate());
+                existMilestone.setDueDate(rs.getDate("due_date").toLocalDate());
                 Timestamp timestampCreated = rs.getTimestamp("created_at");
                 Timestamp timestampUpdated = rs.getTimestamp("updated_at");
                 Timestamp timestampDeleted = rs.getTimestamp("deleted_at");
@@ -46,15 +47,17 @@ public class MilestoneRepository {
     }
 
     public int insert(Milestone milestone) {
-        String sql = "insert into milestone(goal_id,title,content,date) values(?,?,?,?)";
+    // TODO:add column completed_at(completed flag)
+        String sql = "insert into milestone(goal_id,title,content,due_date) values(?,?,?,?)";
         return jdbcTemplate.update(sql, milestone.getGoalId(), milestone.getTitle(),
-                milestone.getContent(), milestone.getDate());
+                milestone.getContent(), milestone.getDueDate());
     }
 
     public int update(Milestone milestone) {
-        String sql = "update milestone set title=?,content=?,date=? where id=?";
+    // TODO:add column completed_at(completed flag)
+        String sql = "update milestone set title=?,content=?,due_date=? where id=?";
         return jdbcTemplate.update(sql, milestone.getTitle(), milestone.getContent(),
-                milestone.getDate(), milestone.getId());
+                milestone.getDueDate(), milestone.getId());
     }
 
     public int delete(int id) {
