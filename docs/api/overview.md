@@ -8,7 +8,7 @@ API名称：milestone
   - 機能追加の発生
 
 ## Server
-本番環境URL：https://www.api.milestone.com/api/v1  
+本番環境URL：TBD  
 バージョニング：/v1のようにバージョンに応じたパスをURLに入れる。
 
 ## Security
