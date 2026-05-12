@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/milestone")
+@RequestMapping("/milestones")
 public class MilestoneController {
     private final MilestoneService milestoneService;
 
@@ -24,18 +24,18 @@ public class MilestoneController {
     }
 
     @PostMapping
-    public int insertMilestone(@RequestBody @Valid MilestoneRequest milestone) {
+    public int insert(@RequestBody @Valid MilestoneRequest milestone) {
         // TODO: Set user_id from logged-in session when login feature is implemented
         return milestoneService.insert(milestone);
     }
 
     @GetMapping("/{id}")
-    public MilestoneResponse selectMilestone(@PathVariable int id) {
+    public MilestoneResponse select(@PathVariable int id) {
         return milestoneService.select(id);
     }
 
     @PutMapping("/{id}")
-    public int updateMilestone(@PathVariable int id,
+    public int update(@PathVariable int id,
             @RequestBody @Valid MilestoneRequest milestone) {
         milestone.setId(id);
         // TODO: Set user_id from logged-in session when login feature is implemented
@@ -43,7 +43,7 @@ public class MilestoneController {
     }
 
     @DeleteMapping("/{id}")
-    public int deleteMilestone(@PathVariable int id) {
+    public int delete(@PathVariable int id) {
         return milestoneService.delete(id);
     }
 
