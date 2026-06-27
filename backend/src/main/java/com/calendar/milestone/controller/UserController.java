@@ -33,11 +33,24 @@ public class UserController {
         this.jwtUserIdExtractor = jwtUserIdExtractor;
     }
 
+    /**
+     * ユーザ情報の新規登録
+     * @param user ユーザ登録する情報
+     * @return ユーザ登録した情報・ログイン用JWTトークン
+    */
     @PostMapping
-    public int insertUser(@RequestBody @Valid UserPostRequest user) {
-        return userService.insert(user);
+    public ApiResponse<UserPostResponse> insertUser(@RequestBody @Valid UserPostRequest user) {
+        final UserPostResponse userPostResponse = userService.insert(user);
+        final ApiResponse<UserPostResponse> apiResponse = 
+            new ApiResponse<UserPostResponse>(userPostResponse, ApiStatus.CREATE);
+        return apiResponse;
     }
 
+    /**
+     * ログインしているユーザのユーザ情報のみを取得
+     * @param jwt
+     * @return
+     */
     @GetMapping
     public UserResponse selectUser(@AuthenticationPrincipal Jwt jwt) {
         return userService.select(jwtUserIdExtractor.extract(jwt));

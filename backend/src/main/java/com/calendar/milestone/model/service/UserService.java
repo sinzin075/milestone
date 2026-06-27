@@ -18,10 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final AuthService authService;
     private final int STATUS_CHANGE_SUCCESS = 1;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService(UserRepository userRepository , AuthService authService) {
         this.userRepository = userRepository;
+        this.authService = authService;
     }
 
 
