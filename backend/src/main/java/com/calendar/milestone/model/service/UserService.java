@@ -18,10 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final AuthService authService;
     private final int STATUS_CHANGE_SUCCESS = 1;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService(UserRepository userRepository , AuthService authService) {
         this.userRepository = userRepository;
+        this.authService = authService;
     }
 
 
@@ -67,10 +70,17 @@ public class UserService {
         return userResponse;
     }
 
-    public int insert(UserPostRequest userPostRequest) {
+    /**
+     * ユーザ登録用(ログイン用のJWTトークン発行まで行う)
+     * @param userPostRequest
+     * @return
+     * @exception IllegalArgumentException
+     */
+    public UserPostResponse insert(UserPostRequest userPostRequest) throws IllegalArgumentException{
         User user = new User();
+        final Email email = Email.of(userPostRequest.getEmail());
         user.setName(userPostRequest.getName());
-        user.setEmail(Email.of(userPostRequest.getEmail()));
+        user.setEmail(email);
         user.setPassword(Password.encode(userPostRequest.getPassword()));
         if (userPostRequest.getPhoto() != null) {
             user.setPhoto(userPostRequest.getPhoto());
@@ -78,11 +88,29 @@ public class UserService {
         if (userPostRequest.getBirthday() != null) {
             user.setBirthday(userPostRequest.getBirthday());
         }
-        return userRepository.insert(user);
+        final int updateRows = userRepository.insert(user);
+        if(updateRows != STATUS_CHANGE_SUCCESS){
+            //TODO:更新が正常にできなかった場合の例外をどれにするか再検討する必要あり。
+            //戻り値が想定外の場合どのような例外を使用するのか
+            throw new IllegalArgumentException("User registration was not completed successfully.");
+        }
+        //response用のデータ作成
+        final LoginResponse loginResponse = authService.issueLoginToken(userPostRequest);
+        final UserId userId = userRepository.selectLoginUserId(email);
+        final User registUser = userRepository.select(userId.getValue());
+        final UserPostResponse userPostResponse = UserPostResponse.from(loginResponse,registUser);
+        return userPostResponse;
     }
 
-    public int update(UserPutRequest userPutRequest) {
-        return userRepository.update(convertToUserUpdate(userPutRequest));
+
+    /**
+     * ユーザ情報の更新(name/photo/birthdayのみ)
+     * @param userPutRequest
+     * @return DBから更新後のデータを取得
+     */
+    public UserPutResponse update(UserPutRequest userPutRequest)throws IllegalArgumentException {
+        if(userRepository.update(convertToUserUpdate(userPutRequest)) != STATUS_CHANGE_SUCCESS){
+            throw new IllegalArgumentException("The update did not complete successfully.");
     }
 
     public UserApiStatusResponse emailUpdate(final UserEmailChangeRequest userEmail)
