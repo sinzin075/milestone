@@ -52,10 +52,20 @@ public class UserController {
      * @return
      */
     @GetMapping
-    public UserResponse selectUser(@AuthenticationPrincipal Jwt jwt) {
-        return userService.select(jwtUserIdExtractor.extract(jwt));
+    public ApiResponse<UserResponse> select(@AuthenticationPrincipal Jwt jwt) {
+        final UserResponse userResponse = userService.select(jwtUserIdExtractor.extract(jwt));
+        final ApiResponse<UserResponse> apiResponse = new ApiResponse<UserResponse>(userResponse, ApiStatus.OK);
+        return apiResponse;
+
     }
 
+    /**
+     * ユーザ情報のうち、認証に使用しないプロフィール情報を更新する。
+     * 更新対象は name、photo、birthday とする。
+     * @param jwt
+     * @param user
+     * @return
+     */
     @PutMapping
     public int updateUser(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserPutRequest user) {
