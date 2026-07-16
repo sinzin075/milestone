@@ -67,11 +67,14 @@ public class UserController {
      * @return
      */
     @PutMapping
-    public int updateUser(@AuthenticationPrincipal Jwt jwt,
+    public ApiResponse<UserPutResponse> updateUser(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserPutRequest user) {
         user.setId(jwtUserIdExtractor.extract(jwt));
-        return userService.update(user);
+        final UserPutResponse userPutResponse = userService.update(user);
+        final ApiResponse<UserPutResponse> apiResponse = new ApiResponse<UserPutResponse>(userPutResponse, ApiStatus.OK);
+        return apiResponse;
     }
+
 
     @PatchMapping("/email")
     public UserApiStatusResponse userEmailUpdate(@AuthenticationPrincipal Jwt jwt,
