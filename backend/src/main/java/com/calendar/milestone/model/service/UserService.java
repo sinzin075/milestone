@@ -112,19 +112,28 @@ public class UserService {
         if(userRepository.update(convertToUserUpdate(userPutRequest)) != STATUS_CHANGE_SUCCESS){
             throw new IllegalArgumentException("The update did not complete successfully.");
     }
+        //更新後のデータを取得してレスポンスを作成する
+        final UserPutResponse userPutResponse = UserPutResponse.from(userRepository.select(userPutRequest.getId()));
+        return userPutResponse;
+    }
 
-    public UserApiStatusResponse emailUpdate(final UserEmailChangeRequest userEmail)
+    /**
+     * ユーザのEmailアドレスを更新する
+     * @param userEmail
+     * @return 
+     * @throws IllegalArgumentException パスワードもしくはEmailが一致しない。もしくは更新数が1以外であるとき
+     */
+    public ApiStatus emailUpdate(final UserEmailChangeRequest userEmail)
             throws IllegalArgumentException {
-        RawPassword rawPassword = RawPassword.of(userEmail.getPassword());
-        String usagePassword = userRepository.findPassword(Email.of(userEmail.getCurrentEmail()));
-        if (!rawPassword.passwordMatch(usagePassword)) {
-            return new UserApiStatusResponse(ApiStatus.UNAUTHORIZED);
+        final RawPassword rawPassword = RawPassword.of(userEmail.getPassword());
+        final String usagePassword = userRepository.findPassword(Email.of(userEmail.getCurrentEmail()));
+        if (!rawPassword.passwordMatch(usagePassword)){
+            throw new IllegalArgumentException("No matching password or email address was found.");
         }
-        if (userRepository.updateEmail(userEmail.getId(),
-                Email.of(userEmail.getNewEmail())) != STATUS_CHANGE_SUCCESS) {
-            return new UserApiStatusResponse(ApiStatus.INTERNAL_SERVER_ERROR);
+        if(userRepository.updateEmail(userEmail.getId(),Email.of(userEmail.getNewEmail())) != STATUS_CHANGE_SUCCESS) {
+            throw new IllegalArgumentException("The update did not complete successfully.");
         }
-        return new UserApiStatusResponse(ApiStatus.OK);
+        return ApiStatus.OK;
     }
 
     public UserApiStatusResponse passwordUpdate(final UserPasswordChangeRequest user)
