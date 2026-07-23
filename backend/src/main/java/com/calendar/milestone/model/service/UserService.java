@@ -5,12 +5,15 @@ import com.calendar.milestone.controller.dto.request.user.UserPasswordChangeRequ
 import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
 import com.calendar.milestone.controller.dto.response.common.ApiStatus;
-import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
+import com.calendar.milestone.controller.dto.response.user.LoginResponse;
+import com.calendar.milestone.controller.dto.response.user.UserPostResponse;
+import com.calendar.milestone.controller.dto.response.user.UserPutResponse;
 import com.calendar.milestone.controller.dto.response.user.UserResponse;
 import com.calendar.milestone.model.entity.User;
 import com.calendar.milestone.model.repository.UserRepository;
 import com.calendar.milestone.model.value.Password;
 import com.calendar.milestone.model.value.RawPassword;
+import com.calendar.milestone.model.value.UserId;
 import com.calendar.milestone.model.value.Email;
 import org.springframework.stereotype.Service;
 
@@ -27,23 +30,21 @@ public class UserService {
         this.authService = authService;
     }
 
-
+    /**
+     * 現在のユーザ情報に対して更新箇所をsetしたUserを作成する
+     * @param userPutRequest
+     * @return
+     */
     public User convertToUserUpdate(UserPutRequest userPutRequest) {
         User user = userRepository.select(userPutRequest.getId());
         if (userPutRequest.getName() != null) {
             user.setName(userPutRequest.getName());
-        }
-        if (userPutRequest.getEmail() != null) {
-            user.setEmail(Email.of(userPutRequest.getEmail()));
         }
         if (userPutRequest.getPhoto() != null) {
             user.setPhoto(userPutRequest.getPhoto());
         }
         if (userPutRequest.getBirthday() != null) {
             user.setBirthday(userPutRequest.getBirthday());
-        }
-        if (userPutRequest.getPassword() != null) {
-            user.setPassword(Password.encode(userPutRequest.getPassword()));
         }
         return user;
     }
@@ -111,7 +112,7 @@ public class UserService {
     public UserPutResponse update(UserPutRequest userPutRequest)throws IllegalArgumentException {
         if(userRepository.update(convertToUserUpdate(userPutRequest)) != STATUS_CHANGE_SUCCESS){
             throw new IllegalArgumentException("The update did not complete successfully.");
-    }
+        }
         //更新後のデータを取得してレスポンスを作成する
         final UserPutResponse userPutResponse = UserPutResponse.from(userRepository.select(userPutRequest.getId()));
         return userPutResponse;
@@ -136,18 +137,24 @@ public class UserService {
         return ApiStatus.OK;
     }
 
-    public UserApiStatusResponse passwordUpdate(final UserPasswordChangeRequest user)
+    /**
+     * ユーザのパスワードを更新する
+     * @param user
+     * @return
+     * @throws IllegalArgumentException パスワードもしくはEmailが一致しない。もしくは更新数が1以外であるとき
+     */
+    public ApiStatus passwordUpdate(final UserPasswordChangeRequest user)
             throws IllegalArgumentException {
         RawPassword rawPassword = RawPassword.of(user.getCurrentPassword());
         String usagePassword = userRepository.findPassword(Email.of(user.getEmail()));
         if (!rawPassword.passwordMatch(usagePassword)) {
-            return new UserApiStatusResponse(ApiStatus.UNAUTHORIZED);
+            throw new IllegalArgumentException("No matching password or email address was found.");
         }
         Password newPassword = Password.encode(user.getNewPassword());
         if (userRepository.updatePassword(user.getId(), newPassword) != STATUS_CHANGE_SUCCESS) {
-            return new UserApiStatusResponse(ApiStatus.INTERNAL_SERVER_ERROR);
+            throw new IllegalArgumentException("The update did not complete successfully.");
         }
-        return new UserApiStatusResponse(ApiStatus.OK);
+        return ApiStatus.OK;
     }
 
     public UserResponse select(int id) {
