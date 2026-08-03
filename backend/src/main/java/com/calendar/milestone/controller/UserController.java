@@ -77,18 +77,22 @@ public class UserController {
 
 
     @PatchMapping("/email")
-    public UserApiStatusResponse userEmailUpdate(@AuthenticationPrincipal Jwt jwt,
+    public ApiResponse<Void> userEmailUpdate(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserEmailChangeRequest user) {
         MilestoneLogger.info("UserのEmail変更を開始");
         user.setId(jwtUserIdExtractor.extract(jwt));
-        return userService.emailUpdate(user);
+        final ApiStatus apiStatus = userService.emailUpdate(user);
+        final ApiResponse<Void> apiResponse = new ApiResponse<>(null, apiStatus);
+        return apiResponse;
     }
 
     @PatchMapping("/password")
-    public UserApiStatusResponse userPasswordUpdate(@AuthenticationPrincipal Jwt jwt,
+    public ApiResponse<Void> userPasswordUpdate(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserPasswordChangeRequest user) {
         user.setId(jwtUserIdExtractor.extract(jwt));
-        return userService.passwordUpdate(user);
+        final ApiStatus apiStatus = userService.passwordUpdate(user);
+        final ApiResponse<Void> apiResponse = new ApiResponse<>(null, apiStatus);
+        return apiResponse;
     }
 
     @DeleteMapping
