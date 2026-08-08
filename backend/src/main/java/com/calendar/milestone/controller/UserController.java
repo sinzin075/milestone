@@ -4,7 +4,10 @@ import com.calendar.milestone.controller.dto.request.user.UserEmailChangeRequest
 import com.calendar.milestone.controller.dto.request.user.UserPasswordChangeRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPostRequest;
 import com.calendar.milestone.controller.dto.request.user.UserPutRequest;
-import com.calendar.milestone.controller.dto.response.user.UserApiStatusResponse;
+import com.calendar.milestone.controller.dto.response.common.ApiResponse;
+import com.calendar.milestone.controller.dto.response.common.ApiStatus;
+import com.calendar.milestone.controller.dto.response.user.UserPostResponse;
+import com.calendar.milestone.controller.dto.response.user.UserPutResponse;
 import com.calendar.milestone.controller.dto.response.user.UserResponse;
 import com.calendar.milestone.infrastructure.MilestoneLogger;
 import com.calendar.milestone.model.service.UserService;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @RestController
 @RequestMapping("/users")
@@ -28,7 +32,7 @@ public class UserController {
     private final UserService userService;
     private final JwtUserIdExtractor jwtUserIdExtractor;
 
-    public UserController(UserService userService,JwtUserIdExtractor jwtUserIdExtractor) {
+    public UserController(UserService userService , JwtUserIdExtractor jwtUserIdExtractor) {
         this.userService = userService;
         this.jwtUserIdExtractor = jwtUserIdExtractor;
     }
@@ -68,14 +72,14 @@ public class UserController {
      */
     @PutMapping
     public ApiResponse<UserPutResponse> updateUser(@AuthenticationPrincipal Jwt jwt,
-            @RequestBody @Valid UserPutRequest user) {
+        @RequestBody @Valid UserPutRequest user) {
         user.setId(jwtUserIdExtractor.extract(jwt));
         final UserPutResponse userPutResponse = userService.update(user);
         final ApiResponse<UserPutResponse> apiResponse = new ApiResponse<UserPutResponse>(userPutResponse, ApiStatus.OK);
         return apiResponse;
     }
 
-
+    
     @PatchMapping("/email")
     public ApiResponse<Void> userEmailUpdate(@AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserEmailChangeRequest user) {
@@ -100,6 +104,18 @@ public class UserController {
         return userService.delete(jwtUserIdExtractor.extract(jwt));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ApiResponse<Void> handlerIllegalArgumentexception(final IllegalArgumentException ex){
+        MilestoneLogger.error(ex.getMessage(), ex);
+        return new ApiResponse<Void>(null, ApiStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ApiResponse<Void> handlerException(final Exception ex){
+        MilestoneLogger.error(ex.getMessage(), ex);
+        return new ApiResponse<Void>(null, ApiStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }
