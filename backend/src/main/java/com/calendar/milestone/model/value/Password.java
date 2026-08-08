@@ -24,7 +24,11 @@ public class Password {
         encodedPassword = passwordEncoder.encode(defaultPassword);
 
     }
-
+    /**
+     * パスワードをエンコードする
+     * @param defaultPassword
+     * @return
+     */
     public static Password encode(String defaultPassword) {
         return new Password(defaultPassword);
     }
