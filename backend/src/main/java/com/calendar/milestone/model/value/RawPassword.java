@@ -29,6 +29,11 @@ public class RawPassword {
         return new RawPassword(rawPassword);
     }
 
+    /**
+     * エンコード前パスワードとエンコード済みパスワードの一致検証
+     * @param passwordEncoded
+     * @return
+     */
     public boolean passwordMatch(final String passwordEncoded) {
         return passwordEncoder.matches(rawPassword, passwordEncoded);
     }
