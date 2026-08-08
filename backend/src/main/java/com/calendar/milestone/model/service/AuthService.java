@@ -29,15 +29,22 @@ public class AuthService {
         final Email loginEmail = Email.of(loginRequest.getEmail());
         final RawPassword loginRawPassword = RawPassword.of(loginRequest.getPassword());
         if (!loginRawPassword.passwordMatch(userRepository.findPassword(loginEmail))) {
-            ApiStatus badApiStatus = ApiStatus.BAD_REQUEST;
-            return new UserApiStatusResponse(badApiStatus);
+    /**
+     * ユーザ新規登録時用のログイン認証
+     * @param user ユーザ新規登録の情報
+     * @return JWTトークン
+     * @throws IllegalArgumentException
+     */
+    public LoginResponse issueLoginToken(final UserPostRequest user) throws IllegalArgumentException{
+        final Email loginEmail = Email.of(user.getEmail());
+        final RawPassword loginRawPassword = RawPassword.of(user.getPassword());
+        if (!loginRawPassword.passwordMatch(userRepository.findPassword(loginEmail))) {
+            throw new IllegalArgumentException("Invalid email or password.");
         }
-        ApiStatus apiStatus = ApiStatus.OK;
         final UserId userId = userRepository.selectLoginUserId(loginEmail);
         final JwtPayload jwtPayload = JwtPayload.of(userId);
         final JwtToken jwtToken = JwtTokenGenerator.generateToken(key, jwtPayload);
-        ApiResponse loginResponse = new LoginResponse(userId.getValue(), jwtToken.getToken(),
-                apiStatus.getStatus(), apiStatus.getMessage());
+        LoginResponse loginResponse = new LoginResponse(jwtToken.getToken());
         return loginResponse;
     }
 }
